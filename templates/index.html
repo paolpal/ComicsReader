@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Aggiungi il link al file CSS di Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Visualizzatore Documenti</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Visualizzatore Documenti</h1>
+
+        <h2>Cartella: {{ codice_cartella }}</h2>
+
+        <!-- Utilizza il sistema di griglia di Bootstrap per creare un layout flessibile -->
+        <div class="row">
+            {% for cartella in cartelle_documenti %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img class="card-img-top" src="{{ url_for('static', filename='documents/' + codice_cartella + '/' + cartella + '/01.jpg') }}" alt="Documento">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ cartella }}</h5>
+                            <a href="/visualizza/{{ codice_cartella }}/{{ cartella }}" class="btn btn-primary">Visualizza</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <!-- Aggiungi il link al file JavaScript di Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

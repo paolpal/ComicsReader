@@ -1,0 +1,26 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+#carousel-container {
+    display: flex;
+    overflow-x: scroll;
+    gap: 20px;
+}
+
+.documento {
+    width: 200px;
+    text-align: center;
+}
+
+.documento img {
+    max-width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.documento p {
+    margin: 0;
+}
