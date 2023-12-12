@@ -24,3 +24,8 @@ body {
 .documento p {
     margin: 0;
 }
+
+.carousel-item img {
+    max-width: 100%;
+    height: auto;
+}
