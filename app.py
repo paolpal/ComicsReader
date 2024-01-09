@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, request, render_template
 import os
 
 app = Flask(__name__)
@@ -11,7 +11,23 @@ def index():
     # Trovare tutte le sottocartelle
     cartelle_documenti = [d for d in os.listdir(os.path.join('static', 'documents', codice_cartella)) if os.path.isdir(os.path.join('static', 'documents', codice_cartella, d))]
 
-    return render_template('/index.html', codice_cartella=codice_cartella, cartelle_documenti=cartelle_documenti)
+    # Ottenere il numero di pagina dalla query string, con default a 1 se non specificato
+    pagina_corrente = int(request.args.get('pagina', 1))
+
+    # Specifica il numero di elementi da visualizzare per pagina
+    n = 21
+
+    # Calcola l'indice di inizio e fine per la pagina corrente
+    inizio = (pagina_corrente - 1) * n
+    fine = pagina_corrente * n
+
+    # Estrarre solo gli elementi per la pagina corrente
+    cartelle_pagina_corrente = cartelle_documenti[inizio:fine]
+
+    # Calcolare il numero totale di pagine necessarie
+    numero_pagine_totali = (len(cartelle_documenti) + n - 1) // n
+
+    return render_template('/index.html', codice_cartella=codice_cartella, cartelle_pagina_corrente=cartelle_pagina_corrente, numero_pagine_totali=numero_pagine_totali, pagina_corrente=pagina_corrente)
 
 @app.route('/visualizza/<codice_cartella>/<documento>')
 def visualizza_documento(codice_cartella, documento):
