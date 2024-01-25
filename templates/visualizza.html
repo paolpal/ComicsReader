@@ -27,28 +27,35 @@
             height: auto;
         }
     </style>
+    <script>
+        // Passa la variabile numeroPagina da Flask a JavaScript
+        var capitolo = '{{ capitolo | tojson | safe }}';
+        capitolo = capitolo.slice(1, -1);
+        var cartella = '{{ cartella | tojson | safe }}';
+        cartella = cartella.slice(1, -1);
+    </script>
 </head>
 <body>
     <h1>Visualizza Documento</h1>
 
-    <h2>Cartella: {{ codice_cartella }}</h2>
-    <h3>Documento: {{ documento }}</h3>
+    <h2>Cartella: {{ cartella }}</h2>
+    <h3>Documento: {{ capitolo }}</h3>
     <p>Numero di pagine: {{ numero_pagine }}</p>
 
-    <!-- Utilizza il carosello di Bootstrap per visualizzare le pagine del documento -->
+    <!-- Utilizza il carosello di Bootstrap per visualizzare le pagine del capitolo -->
     <div id="documento-carousel" class="carousel">
         <div class="carousel-inner" dir="rtl">
-            {% for pagina in range(1, numero_pagine + 1) %}
+            {% for pagina in lista_pagine %}
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="{{ url_for('static', filename='documents/' + codice_cartella + '/' + documento + '/' + "%02d" % pagina + '.jpg') }}" alt="Pagina {{ pagina }}">
+                    <img class="d-block w-100" src="{{ url_for('static', filename='documents/' + cartella + '/' + capitolo + '/' + pagina) }}" alt="Pagina {{ loop.index }}">
                 </div>
             {% endfor %}
         </div>
     </div>
 
     <p>Numero di pagine: {{ numero_pagine }}</p>
-
-    <a href="/">Torna alla homepage</a>
+    
+    <a href="javascript:void(0);" onclick="tornaAllaHomepageConPaginaCorrente(cartella, capitolo)">Torna alla homepage</a>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <!-- Inizializza il carosello con JavaScript -->

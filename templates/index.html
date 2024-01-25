@@ -12,17 +12,21 @@
     <div class="container">
         <h1>Visualizzatore Documenti</h1>
 
-        <h2>Cartella: {{ codice_cartella }}</h2>
+        <h2>Cartella: {{ cartella }}</h2>
 
         <!-- Utilizza il sistema di griglia di Bootstrap per creare un layout flessibile -->
         <div class="row">
-            {% for cartella in cartelle_pagina_corrente %}
+            {% for capitolo in cartelle_pagina_corrente %}
                 <div class="col-md-4 mb-4">
                     <div class="card">
-                        <img class="card-img-top" src="{{ url_for('static', filename='documents/' + codice_cartella + '/' + cartella + '/01.jpg') }}" alt="Documento">
+						{% if os.path.exists('static/documents/' + cartella + '/' + capitolo + '/01.jpg') %}
+                        	<img class="card-img-top" src="{{ url_for('static', filename='documents/' + cartella + '/' + capitolo + '/01.jpg') }}" alt="Documento">
+						{%else%}
+                        	<img class="card-img-top" src="{{ url_for('static', filename='documents/' + cartella + '/' + capitolo + '/01.png') }}" alt="Documento">
+						{% endif %}
                         <div class="card-body">
-                            <h5 class="card-title">{{ cartella }}</h5>
-                            <a href="/visualizza/{{ codice_cartella }}/{{ cartella }}" class="btn btn-primary">Visualizza</a>
+                            <h5 class="card-title">{{ capitolo }}</h5>
+                            <a href="/visualizza/{{ cartella }}/{{ capitolo }}" class="btn btn-primary">Visualizza</a>
                         </div>
                     </div>
                 </div>
@@ -32,11 +36,11 @@
         <!-- Aggiungi i controlli per la navigazione tra le pagine -->
 		<nav aria-label="Navigazione pagine">
 			<ul class="pagination">
-				{% if pagina_corrente > 1 %}
+				{% if pagina_corrente > 3 %}
 					<li class="page-item">
 						<a class="page-link" href="?pagina=1">1</a>
 					</li>
-					{% if pagina_corrente > 3 %}
+					{% if pagina_corrente >= 5 %}
 						<li class="page-item disabled">
 							<span class="page-link">...</span>
 						</li>
@@ -52,18 +56,18 @@
 				{% endfor %}
 				
 				{% if pagina_corrente < numero_pagine_totali - 2 %}
-					<li class="page-item disabled">
-						<span class="page-link">...</span>
-					</li>
+					{% if pagina_corrente <= numero_pagine_totali - 4 %}
+						<li class="page-item disabled">
+							<span class="page-link">...</span>
+						</li>
+					{% endif %}
 					<li class="page-item">
 						<a class="page-link" href="?pagina={{ numero_pagine_totali }}">{{ numero_pagine_totali }}</a>
 					</li>
 				{% endif %}
 			</ul>
 		</nav>
-		
-		
-		
+
     </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
