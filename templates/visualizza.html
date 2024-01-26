@@ -3,29 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Visualizza Documento</title>
+	<title>ComicsReader</title>
     <!-- Includi jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Includi Slick Carousel CSS e JS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 	<style>
-		.carousel {
-			max-width: 100%;
-			margin: 0px;
-			align-items: center;
-		}
+/* Stili per i bottoni di navigazione */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
 
-		.carousel-inner {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+.navigation-buttons a {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
 
-        .carousel-item img {
-            max-width: 100%;
-            height: auto;
-        }
+.navigation-buttons a:hover {
+    background-color: #0056b3;
+}
     </style>
     <script>
         // Passa la variabile numeroPagina da Flask a JavaScript
@@ -36,11 +43,22 @@
     </script>
 </head>
 <body>
-    <h1>Visualizza Documento</h1>
+    <h3>{{ cartella }} : {{ capitolo }}</h3>
 
-    <h2>Cartella: {{ cartella }}</h2>
-    <h3>Documento: {{ capitolo }}</h3>
-    <p>Numero di pagine: {{ numero_pagine }}</p>
+    <!-- Aggiungi i bottoni per il documento precedente e successivo -->
+    <div class="navigation-buttons">
+        {% if precedente is not none %}
+            <a href="/visualizza/{{ cartella }}/{{ precedente }}">Documento Precedente</a>
+        {% endif %}
+    
+        <a href="/{{ cartella }}?pagina={{ pagina }}">Home</a>
+    
+        {% if successivo is not none %}
+            <a href="/visualizza/{{ cartella }}/{{ successivo }}">Documento Successivo</a>
+        {% endif %}
+    </div>
+    
+
 
     <!-- Utilizza il carosello di Bootstrap per visualizzare le pagine del capitolo -->
     <div id="documento-carousel" class="carousel">
@@ -52,10 +70,6 @@
             {% endfor %}
         </div>
     </div>
-
-    <p>Numero di pagine: {{ numero_pagine }}</p>
-    
-    <a href="javascript:void(0);" onclick="tornaAllaHomepageConPaginaCorrente(cartella, capitolo)">Torna alla homepage</a>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <!-- Inizializza il carosello con JavaScript -->

@@ -9,20 +9,4 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-function estraiNumeroCapitolo(daStringa) {
-    var match = daStringa.match(/\bCapitolo (\d+)\b/);
-    return match ? parseInt(match[1]) : null;
-}
-
-function calcolaNumeroPagina(numeroCapitolo, capitoliPerPagina = 21) {
-    return Math.ceil(numeroCapitolo / capitoliPerPagina);
-}
-
-function tornaAllaHomepageConPaginaCorrente(cartella, capitolo) {
-    var nCapitolo = estraiNumeroCapitolo(capitolo)+1;
-    page = calcolaNumeroPagina(nCapitolo);
-    var nuovaURL = '/'+cartella+'?pagina=' + page;
-    window.location.href = nuovaURL;
-}
-
 

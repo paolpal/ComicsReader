@@ -3,12 +3,6 @@ body {
     margin: 20px;
 }
 
-#carousel-container {
-    display: flex;
-    overflow-x: scroll;
-    gap: 20px;
-}
-
 .documento {
     width: 200px;
     text-align: center;
@@ -23,6 +17,17 @@ body {
 
 .documento p {
     margin: 0;
+}
+
+.carousel {
+    max-width: 100%;
+    margin: 0px;
+    align-items: center;
+}
+
+.carousel-inner {
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .carousel-item img {
